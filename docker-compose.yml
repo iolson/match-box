@@ -1,0 +1,112 @@
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - ./src/web:/var/www
+    depends_on:
+      - php
+    networks:
+      - match-box
+
+  php:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./src/web:/var/www
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - match-box
+
+  queue:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./src/web:/var/www
+    command: php artisan queue:work --sleep=3 --tries=3 --max-time=3600
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - match-box
+
+  mysql:
+    image: mysql:8
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-match_box}
+      MYSQL_USER: ${DB_USERNAME:-match_box}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - match-box
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - match-box
+
+  logs-receiver:
+    build:
+      context: ./docker/node
+      dockerfile: /dev/null
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./src/logs-receiver:/app
+    command: node index.js
+    ports:
+      - "${LOG_RECEIVER_PORT:-9999}:9999/udp"
+    depends_on:
+      - redis
+    networks:
+      - match-box
+
+  websocket:
+    build:
+      context: ./docker/node
+      dockerfile: /dev/null
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./src/websocket:/app
+    command: node index.js
+    ports:
+      - "${WEBSOCKET_PORT:-8090}:8090"
+    depends_on:
+      - redis
+    networks:
+      - match-box
+
+  vite:
+    image: node:20-alpine
+    working_dir: /var/www
+    volumes:
+      - ./src/web:/var/www
+    command: npm run dev -- --host 0.0.0.0
+    ports:
+      - "${VITE_PORT:-5173}:5173"
+    profiles:
+      - dev
+    networks:
+      - match-box
+
+volumes:
+  mysql-data:
+  redis-data:
+
+networks:
+  match-box:
+    driver: bridge

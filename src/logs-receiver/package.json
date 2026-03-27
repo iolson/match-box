@@ -1,0 +1,13 @@
+{
+  "name": "match-box-logs-receiver",
+  "version": "0.1.0",
+  "description": "UDP log receiver for CS2 game server events",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "ioredis": "^5.4.1"
+  }
+}
