@@ -25,7 +25,7 @@ make init
 
 That's it. This single command will:
 
-1. Copy `.env.example` to `.env`
+1. Copy `src/web/.env.example` to `src/web/.env`
 2. Build and start all Docker containers
 3. Install PHP dependencies (via Composer)
 4. Generate an application key
@@ -155,20 +155,27 @@ docker compose exec php php artisan test --filter=PlayerTest
 
 ## Environment Configuration
 
-The default `.env.example` is pre-configured for Docker. Key settings:
+All configuration lives in `src/web/.env`. Key settings:
+
+**Laravel / Admin:**
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DB_DATABASE` | `match_box` | MySQL database name |
+| `DB_USERNAME` | `match_box` | MySQL username |
+| `DB_PASSWORD` | `secret` | MySQL password |
+| `ADMIN_NAME` | `Admin` | Default admin user name |
+| `ADMIN_EMAIL` | `admin@matchbox.local` | Default admin login email |
+| `ADMIN_PASSWORD` | `changeme` | Default admin login password |
+
+**Docker ports** (set as environment variables or in a root `.env` file):
 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `APP_PORT` | `8080` | Public web port |
-| `DB_DATABASE` | `match_box` | MySQL database name |
-| `DB_USERNAME` | `match_box` | MySQL username |
-| `DB_PASSWORD` | `secret` | MySQL password |
 | `WEBSOCKET_PORT` | `8090` | WebSocket server port |
 | `LOG_RECEIVER_PORT` | `9999` | UDP log receiver port |
 | `VITE_PORT` | `5173` | Vite dev server port (dev profile only) |
-| `ADMIN_NAME` | `Admin` | Default admin user name |
-| `ADMIN_EMAIL` | `admin@matchbox.local` | Default admin login email |
-| `ADMIN_PASSWORD` | `changeme` | Default admin login password |
 
 ## Contributing
 

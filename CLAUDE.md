@@ -32,7 +32,6 @@ match-box/
 ├── docker/                  # Dockerfiles and service config
 │   ├── php/                 # PHP 8.4 FPM + extensions
 │   ├── nginx/               # Reverse proxy
-│   ├── node/                # Node.js base
 │   └── mysql/               # MySQL config
 ├── src/
 │   ├── web/                 # Laravel app (all PHP code here)
