@@ -16,7 +16,7 @@ match-box replaces the legacy eBot ecosystem (Symfony web panel, Node.js service
 
 ## Tech Stack
 
-- **Backend:** Laravel 12 (PHP 8.3+), Filament v5, Livewire, Tailwind CSS
+- **Backend:** Laravel 12 (PHP 8.4+), Filament v5, Livewire, Tailwind CSS
 - **Database:** MySQL 8
 - **Cache/Queue:** Redis 7
 - **Testing:** Pest PHP
@@ -30,7 +30,7 @@ match-box/
 ├── docker-compose.yml       # Service orchestration
 ├── Makefile                 # Dev shortcuts (make up, make test, etc.)
 ├── docker/                  # Dockerfiles and service config
-│   ├── php/                 # PHP 8.3 FPM + extensions
+│   ├── php/                 # PHP 8.4 FPM + extensions
 │   ├── nginx/               # Reverse proxy
 │   ├── node/                # Node.js base
 │   └── mysql/               # MySQL config

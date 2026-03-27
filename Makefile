@@ -1,4 +1,16 @@
-.PHONY: up down dev build migrate fresh seed test shell tinker logs queue
+.PHONY: up down dev build init migrate fresh seed test shell tinker logs queue
+
+init:
+	cp -n src/web/.env.example src/web/.env || true
+	docker compose up -d --build
+	docker compose exec php php artisan migrate --seed
+	docker compose exec php php artisan matchbox:create-admin
+	@echo ""
+	@echo "match-box is ready at http://localhost:8080"
+	@echo "Admin panel at http://localhost:8080/admin"
+	@echo "Default login: admin@matchbox.local / changeme"
+	@echo ""
+	@echo "IMPORTANT: Change the default admin password in your .env file!"
 
 up:
 	docker compose up -d

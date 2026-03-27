@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.4-fpm-alpine
 
 RUN apk add --no-cache \
     libpng-dev \
@@ -28,4 +28,11 @@ COPY php.ini /usr/local/etc/php/conf.d/custom.ini
 WORKDIR /var/www
 
 RUN addgroup -g 1000 -S www && adduser -u 1000 -S www -G www
+
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 USER www
+
+ENTRYPOINT ["entrypoint.sh"]
+CMD ["php-fpm"]
