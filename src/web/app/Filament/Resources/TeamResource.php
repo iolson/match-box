@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TeamResource\Pages;
 use App\Models\Team;
+use App\Support\Countries;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -24,8 +25,10 @@ class TeamResource extends Resource
                 ->maxLength(255),
             Forms\Components\TextInput::make('short_name')
                 ->maxLength(10),
-            Forms\Components\TextInput::make('country_code')
-                ->maxLength(3),
+            Forms\Components\Select::make('country_code')
+                ->label('Country')
+                ->options(Countries::options())
+                ->searchable(),
             Forms\Components\TextInput::make('logo_path')
                 ->maxLength(255),
             Forms\Components\TextInput::make('link')
@@ -43,7 +46,9 @@ class TeamResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('short_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('country_code'),
+                Tables\Columns\TextColumn::make('country_code')
+                    ->label('Country')
+                    ->formatStateUsing(fn (?string $state) => $state ? Countries::flag($state) . ' ' . $state : ''),
             ])
             ->filters([])
             ->actions([

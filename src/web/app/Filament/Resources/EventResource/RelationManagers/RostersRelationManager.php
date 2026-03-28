@@ -32,7 +32,7 @@ class RostersRelationManager extends RelationManager
                     ->label('Player')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('player.steam_id')
-                    ->label('Steam ID'),
+                    ->label('SteamID64'),
             ])
             ->filters([])
             ->headerActions([

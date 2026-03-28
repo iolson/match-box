@@ -177,6 +177,11 @@ All configuration lives in `src/web/.env`. Key settings:
 | `LOG_RECEIVER_PORT` | `9999` | UDP log receiver port |
 | `VITE_PORT` | `5173` | Vite dev server port (dev profile only) |
 
+## Documentation
+
+- [Admin Guide](docs/admin-guide.md) — Step-by-step guide for tournament organizers (no technical experience required)
+- [Architecture](docs/architecture.md) — System design and technical overview
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
